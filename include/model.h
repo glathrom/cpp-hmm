@@ -12,6 +12,7 @@ class Model {
         
         Model();
         ~Model();
+        void initialize(void);
         
         void set_initial(double*);
         void set_state(double*);

@@ -41,7 +41,7 @@ flags = [
 '-x',
 'c++',
 '-I', '/usr/include/',
-'-I', '/usr/include/c++/9/',
+'-I', '/usr/include/c++/8/',
 '-I', '/usr/local/include/',
 '-I', './include/',
 '-I', f'os.environ["HOME"]/.local/include/',

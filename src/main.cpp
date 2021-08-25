@@ -22,6 +22,8 @@ int main(){
     myModel.set_state(&(A[0][0]));
     myModel.set_observe(&(B[0][0]));
 
+    myModel.initialize();
+
 
     for( int i = 0; i < myModel.N; i++ )
         std::cout << myModel.pi[i] << "  ";
