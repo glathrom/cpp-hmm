@@ -19,9 +19,9 @@ void alphaPass(Model *mod, std::vector<unsigned int> *ob, std::vector<double> *a
     std::cout << "Alpha Pass" << std::endl;
 
     t = 0;
-    for( i = 0; i < mod->N; i++ ){
+    for( i = 0; i < mod->N; i++ )
         alpha->at(i) = pi[i]* B[i][ob->at(t)];
-    }
+    
 
     std::cout << "t = 0" << "\t\t< ";
     for( i = 0; i < mod->N; i++ )
