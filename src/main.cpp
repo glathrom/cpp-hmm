@@ -3,6 +3,7 @@
 #include <vector>
 #include "model.h"
 #include "alpha.h"
+#include "beta.h"
 
 
 const int Model::N = 2;
@@ -25,9 +26,10 @@ int main(){
     myModel.set_state(&(A[0][0]));
     myModel.set_observe(&(B[0][0]));
 
-    myModel.initialize();
+    //myModel.initialize();
 
 
+    std::cout << "The Model" << std::endl;
     for( int i = 0; i < myModel.N; i++ )
         std::cout << myModel.pi[i] << "  ";
     std::cout << std::endl;
@@ -46,6 +48,13 @@ int main(){
         std::cout << std::endl;
     }
     std::cout << std::endl;
+
+    std::vector<double> alpha(myModel.N);
+    std::vector<double> beta(myModel.N);
+
+    alphaPass(&myModel, &obs, &alpha);
+    betaPass(&myModel, &obs, &beta);
+
 
     return 0;
 }

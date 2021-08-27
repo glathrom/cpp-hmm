@@ -18,12 +18,17 @@ void betaPass(Model *mod, std::vector<unsigned int> *ob, std::vector<double> *be
     A = mod->A;
     B = mod->B;
 
-    std::cout << "entering betaPass function" << std::endl;
+    std::cout << "Beta Pass" << std::endl;
     
     // initialize beta for time T-1
     for( int i = 0; i < mod->N; i++ ){
         (*beta)[i] = 1.0;
     }
+
+    std::cout << "t = 0" << "\t\t< ";
+    for( int i = 0; i < mod->N; i++ )
+        std::cout << beta->at(i) << " ";
+    std::cout << ">" << std::endl;
 
     // iteration for beta from time T-2 down to 0
     for(int t = (int) ob->size()-1; t > 0; --t){
@@ -36,11 +41,15 @@ void betaPass(Model *mod, std::vector<unsigned int> *ob, std::vector<double> *be
                 (*beta)[i] += (A[i][j]*B[j][ob->at(t)]*temp[j]);
             } 
         }
-
+        
+        std::cout << "t = " << t << "\t\t< ";
         for( int i = 0; i < mod->N; i++ )
-            std::cout << (*beta)[i] << "  ";
-        std::cout << std::endl;
+            std::cout << beta->at(i) << " ";
+        std::cout << ">" << std::endl;
+
     }
+
+    std::cout << std::endl;
 
     
 }
