@@ -32,7 +32,8 @@ include_directories(
 ######################
 
 add_library(model STATIC ${CMAKE_SOURCE_DIR}/src/model.cpp)
-#add_library(goodbye SHARED ${CMAKE_SOURCE_DIR}/src/goodbye.cpp)
+add_library(alpha SHARED ${CMAKE_SOURCE_DIR}/src/alpha.cpp)
+add_library(beta SHARED ${CMAKE_SOURCE_DIR}/src/beta.cpp)
 
 ######################
 # target executable
@@ -40,4 +41,4 @@ add_library(model STATIC ${CMAKE_SOURCE_DIR}/src/model.cpp)
 
 set(SOURCES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 add_executable(application ${SOURCES})
-target_link_libraries(application model)
+target_link_libraries(application model alpha beta)

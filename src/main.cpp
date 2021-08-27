@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "model.h"
-#include "passes.h"
+#include "alpha.h"
 
 
 const int Model::N = 2;

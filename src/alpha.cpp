@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <vector>
 #include "model.h"
+#include "alpha.h"
 
 
 
