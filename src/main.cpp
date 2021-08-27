@@ -1,6 +1,8 @@
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 #include "model.h"
+#include "passes.h"
 
 
 const int Model::N = 2;
@@ -9,6 +11,7 @@ const int Model::M = 3;
 int main(){
 
     Model myModel;
+    std::vector<unsigned int> obs{0,1,0,2};
 
     double pi[2] = {0.6, 0.4};
 
