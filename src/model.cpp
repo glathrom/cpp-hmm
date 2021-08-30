@@ -1,23 +1,17 @@
 #include <cstdlib>
 #include <cstdio>
-#include <cstring>
 #include <random>
+#include <vector>
 #include "model.h"
 
 
 Model::Model(){
     
-    initial = new double[N];
-    state = new double [N*N];
-    observe= new double [N*M];
-
-    pi = initial;
-    A = new double*[N];
-    B = new double*[N];
+    std::vector<double> pi(N);
 
     for( int i = 0; i < N; i++ ){
-        A[i] = &state[i*N];
-        B[i] = &observe[i*M];
+        A.push_back( new std::vector<double> (N) );
+        B.push_back( new std::vector<double> (M) );
     }
 }
 
@@ -27,20 +21,25 @@ Model::~Model(){
 
 
 void Model::set_initial(double* pi_){
-    memcpy(initial, pi_, N*sizeof(double));
+    for(int i = 0; i < N; i++)
+        pi[i] = *(pi_+i);
 }
 
 void Model::set_state(double *A_){
-    for(int i = 0; i < N; i++)
-        memcpy(state+N*i,A_+N*i,N*sizeof(double));
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++ )
+            A[i]->at(j) = *(A_+i*N+j);
+    }
 }
 
 void Model::set_observe(double* B_){
-    for(int i = 0; i < N; i++)
-        memcpy(observe+M*i,B_+M*i,M*sizeof(double));
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++ )
+            A[i]->at(j) = *(B_+i*M+j);
+    }
 }
 
-void Model::initialize(void){
+void Model::randomize(void){
     double uniform = (1.0/(double) N);
     double sigma = uniform*0.00033333;
     double uniform2 = (1.0/(double) M);
@@ -59,12 +58,12 @@ void Model::initialize(void){
             if( (x < uniform) && (x > -uniform) )
                 break;
         }
-        initial[i] = (uniform + x);
-        sum += initial[i];
+        pi[i] = (uniform + x);
+        sum += pi[i];
     }   
    
    for( int i  = 0; i < N; i++ )
-      initial[i] /= sum; 
+      pi[i] /= sum; 
 
    double sumA, sumB;
    for( int i = 0; i < N; i++ ){
@@ -75,8 +74,8 @@ void Model::initialize(void){
                if( (x < uniform) && (x > -uniform) )
                    break;
            }
-           state[i*N+j] = (uniform + x);
-           sumA += state[i*N+j];
+           A[i]->at(j) = (uniform + x);
+           sumA += A[i]->at(j);
        }
 
        sumB = 0.0;
@@ -86,14 +85,26 @@ void Model::initialize(void){
                if( (x < uniform2) && (x > -uniform2) )
                    break;
            }
-           observe[i*M+j] = (uniform2 + x);
-           sumB += observe[M*i+j];
+           B[i]->at(j) = (uniform2 + x);
+           sumB += B[i]->at(j);
        }
 
        for( int j = 0; j < N; j++ )
-           state[i*N+j] /= sumA;
+           A[i]->at(j) /= sumA;
        
        for( int j = 0; j < M; j++ )
-           observe[i*M+j] /= sumB;
+           B[i]->at(j) /= sumB;
    }
+}
+
+double Model::initial(unsigned int i){
+    return pi[i];
+}
+
+double Model::state(unsigned int i, unsigned int j){
+    return A[i]->at(j);
+}
+
+double Model::observe(unsigned int i, unsigned int j){
+    return B[i]->at(j);
 }

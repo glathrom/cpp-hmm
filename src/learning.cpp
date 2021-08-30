@@ -47,11 +47,12 @@ void betaIncrement(std::vector<double> *beta, Model *mod, unsigned int ob){
 
 
 
-void learning(Model *newModel, Model *oldModel, std::vector<unsigned int> *ob){
+void iteration(Model *newModel, Model *oldModel, std::vector<unsigned int> *ob){
     double *pi = oldModel->pi;
     double **A = oldModel->A;
     double **B = oldModel->B;
-    int i, j, t;
+    double x;
+    unsigned int i, j, t;
 
     const unsigned int n = oldModel->N;
     const unsigned int m = oldModel->M;
@@ -61,20 +62,28 @@ void learning(Model *newModel, Model *oldModel, std::vector<unsigned int> *ob){
     std::vector<double> beta;
 
     std::vector<std::vector<double> *> digamma;
+    std::vector<std::vector<double> *> gamma;
 
     // initialize the digammas
-    for( i = 0; i < (int) n; i++ ){
+    for( i = 0; i < n; i++ ){
         digamma[i] = new std::vector<double>;
-        for( j = 0; j < (int) n; j++ )
+        for( j = 0; j < n; j++ )
             digamma[i]->push_back(0.0);
+    }
+    
+    // initialize the gammas
+    for( t = 0; t < T;  t++ ){
+        gamma[t] = new std::vector<double>;
+        for( j = 0; j < n; j++ )
+            gamma[t]->push_back(0.0);
     }
 
 
-    for( t = 0; t < (int) ob->size()-1; t++ ){
+    for( t = 0; t < T-1; t++ ){
 
         // initialize alpha and increment alpha
         if( t == 0 ){
-            for( i = 0; i < (int)  oldModel->N; i++ )
+            for( i = 0; i < n; i++ )
                 alpha[i] = pi[i]* B[i][ob->at(t)];
         }
         else 
@@ -82,21 +91,30 @@ void learning(Model *newModel, Model *oldModel, std::vector<unsigned int> *ob){
 
         // initialize beta and increment beta 
         // increment back to time t+1
-        for( i = 0; i < (int) n; i++ )
+        for( i = 0; i < n; i++ )
             beta[i] = 1.0;
-        for( int tau = ob->size()-2; tau > t; tau--)
+        for( unsigned int tau = ob->size()-2; tau > t; tau--)
             betaIncrement(&beta, oldModel, ob->at(tau));
 
-        // calculate the digamma
-        for( i = 0; i < (int) n; i++ ){
-            for( j = 0; j < (int) n; j++ ){
-                (*(digamma[i]))[j] = alpha[i]*A[i][j]*B[j][ob->at(t+1)]*beta[j];
+        // calculate the digamma and gammas
+        for( i = 0; i < n; i++ ){
+            for( j = 0; j < n; j++ ){
+                x = alpha[i]*A[i][j]*B[j][ob->at(t+1)]*beta[j];
+                (*(digamma[i]))[j] += x;
+                gamma[t]->at(i) += x;
             }
         }
 
-        // calculate the gammas
-
         // recalcualte model coefficients
+        for( i = 0; i < n; i++ ){
+            newModel->pi[i] = gamma[0]->at(i);
+            x = 0.0;
+            for(t = 0; t < T-1; t++ )
+                x += gamma[t]->at(i);
+            for( j = 0; j < n; j++ )
+                newModel->A[i][j] = (digamma[i]->at(j))/x;
+        }
+
     }
 
 }
