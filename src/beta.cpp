@@ -6,18 +6,9 @@
 
 
 void betaPass(Model *mod, std::vector<unsigned int> *ob, std::vector<double> *beta){
-
-    double *pi;
-    double **A;
-    double **B;
-    
     std::vector<double> temp(mod->N);
     std::vector<double> zero(mod->N, 0.0);
     
-    pi = mod->pi;
-    A = mod->A;
-    B = mod->B;
-
     std::cout << "Beta Pass" << std::endl;
     
     // initialize beta for time T-1
@@ -38,7 +29,7 @@ void betaPass(Model *mod, std::vector<unsigned int> *ob, std::vector<double> *be
         for( int i = 0; i < mod->N; i++ ){
             (*beta)[i] = 0.0;
             for( int j = 0; j < mod->N; j++ ){
-                (*beta)[i] += (A[i][j]*B[j][ob->at(t)]*temp[j]);
+                (*beta)[i] += (mod->state(i,j)*mod->observe(j,ob->at(t))*temp[j]);
             } 
         }
         
