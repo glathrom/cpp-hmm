@@ -19,14 +19,18 @@ int main(){
 
     double  B[2][3] = { {0.1, 0.4, 0.5},
                         {0.7, 0.2, 0.1} };
-    
+     
     myModel.set_initial(pi);
     myModel.set_state(&(A[0][0]));
     myModel.set_observe(&(B[0][0]));
+    
 
-    //myModel.initialize();
+    //myModel.randomize();
 
-
+    std::cout << "size of initial = " <<  myModel.get_initial()->size() << std::endl;    
+    std::cout << "size of state = " <<  myModel.get_state()->size() << std::endl;    
+    std::cout << "size of observe = " <<  myModel.get_observe()->at(1)->size() << std::endl << std::endl;
+    
     std::cout << "The Model" << std::endl;
     for( int i = 0; i < myModel.N; i++ )
         std::cout << myModel.initial(i) << "  ";

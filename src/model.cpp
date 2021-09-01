@@ -6,10 +6,9 @@
 
 
 Model::Model(){
-    
-    std::vector<double> pi(N);
 
     for( int i = 0; i < N; i++ ){
+        pi.push_back(0.0);
         A.push_back( new std::vector<double> (N) );
         B.push_back( new std::vector<double> (M) );
     }
@@ -19,10 +18,17 @@ Model::~Model(){
     printf("model destructor ran\n");
 }
 
+std::vector<double> * Model::get_initial(void){
+    return &pi;
+}
 
 void Model::set_initial(double* pi_){
     for(int i = 0; i < N; i++)
         pi[i] = *(pi_+i);
+}
+
+std::vector<std::vector<double> *> *Model::get_state(void){
+    return &A;
 }
 
 void Model::set_state(double *A_){
@@ -32,10 +38,14 @@ void Model::set_state(double *A_){
     }
 }
 
+std::vector<std::vector<double> *> *Model::get_observe(void){
+    return &B;
+}
+
 void Model::set_observe(double* B_){
     for(int i = 0; i < N; i++){
         for(int j = 0; j < M; j++ )
-            A[i]->at(j) = *(B_+i*M+j);
+            B[i]->at(j) = *(B_+i*M+j);
     }
 }
 

@@ -24,3 +24,5 @@ message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}")
 add_library(model STATIC model.cpp)
 add_library(alpha SHARED alpha.cpp)
 add_library(beta SHARED beta.cpp)
+
+export(TARGETS model NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/../lib/cmake/modelConfig.cmake)
