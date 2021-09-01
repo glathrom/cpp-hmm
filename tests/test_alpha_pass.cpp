@@ -13,6 +13,7 @@ int main(){
 
     Model myModel;
     std::vector<unsigned int> obs{0,1,0,2};
+    double p;
 
     double pi[2] = {0.6, 0.4};
 
@@ -50,10 +51,10 @@ int main(){
     std::cout << std::endl;
 
     std::vector<double> alpha(myModel.N);
-    std::vector<double> beta(myModel.N);
 
-    alphaPass(&myModel, &obs, &alpha);
-    betaPass(&myModel, &obs, &beta);
+    p = alphaPass(&myModel, &obs, &alpha);
+
+    std::cout << "log-prob (base 2) = " << p << std::endl;
 
 
     return 0;

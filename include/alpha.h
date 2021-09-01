@@ -5,7 +5,7 @@
 #include "model.h"
 
 
-void alphaPass(Model *, std::vector<unsigned int> *, std::vector<double> *);
+double alphaPass(Model *, std::vector<unsigned int> *, std::vector<double> *);
 
 
 #endif

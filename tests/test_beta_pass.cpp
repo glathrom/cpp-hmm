@@ -49,12 +49,9 @@ int main(){
     }
     std::cout << std::endl;
 
-    std::vector<double> alpha(myModel.N);
     std::vector<double> beta(myModel.N);
 
-    alphaPass(&myModel, &obs, &alpha);
     betaPass(&myModel, &obs, &beta);
-
 
     return 0;
 }

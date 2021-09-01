@@ -4,7 +4,7 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
    message(FATAL_ERROR "CMake >= 2.6.0 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.6)
+cmake_policy(VERSION 2.6...3.17)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -16,7 +16,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_targetsDefined)
 set(_targetsNotDefined)
 set(_expectedTargets)
-foreach(_expectedTarget model::model)
+foreach(_expectedTarget model::beta)
   list(APPEND _expectedTargets ${_expectedTarget})
   if(NOT TARGET ${_expectedTarget})
     list(APPEND _targetsNotDefined ${_expectedTarget})
@@ -41,14 +41,14 @@ unset(_targetsNotDefined)
 unset(_expectedTargets)
 
 
-# Create imported target model::model
-add_library(model::model STATIC IMPORTED)
+# Create imported target model::beta
+add_library(model::beta SHARED IMPORTED)
 
-# Import target "model::model" for configuration ""
-set_property(TARGET model::model APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
-set_target_properties(model::model PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
-  IMPORTED_LOCATION_NOCONFIG "/home/grant/Projects/compiled/hmm/lib/libmodel.a"
+# Import target "model::beta" for configuration ""
+set_property(TARGET model::beta APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
+set_target_properties(model::beta PROPERTIES
+  IMPORTED_LOCATION_NOCONFIG "/home/grant/Projects/compiled/hmm/lib/libbeta.so"
+  IMPORTED_SONAME_NOCONFIG "libbeta.so"
   )
 
 # This file does not depend on other imported targets which have

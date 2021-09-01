@@ -23,6 +23,10 @@ message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_library(model STATIC model.cpp)
 add_library(alpha SHARED alpha.cpp)
-add_library(beta SHARED beta.cpp)
+add_library(beta  SHARED beta.cpp)
+add_library(learn SHARED learning.cpp)
 
-export(TARGETS model NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/../lib/cmake/modelConfig.cmake)
+export(TARGETS model NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modelConfig.cmake)
+export(TARGETS alpha NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/alphaConfig.cmake)
+export(TARGETS beta  NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/betaConfig.cmake)
+export(TARGETS learn NAMESPACE model:: FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/learnConfig.cmake)
