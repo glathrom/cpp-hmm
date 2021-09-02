@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <random>
 #include <vector>
+#include <iostream>
 #include "model.h"
 
 
@@ -117,4 +118,32 @@ double Model::state(unsigned int i, unsigned int j){
 
 double Model::observe(unsigned int i, unsigned int j){
     return B[i]->at(j);
+}
+
+void Model::print(void){
+    std::cout << "Number of States = " << N << std::endl;
+    std::cout << "Number of Observables = " << M << std::endl;
+    std::cout << std::endl;
+    std::cout << "Initial Probabilities" << std::endl;
+    std::cout << "\t";
+    for( int i = 0; i < N; i++ )
+        std::cout << pi[i] << "  ";
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "State Transition Probabilities" << std::endl << "\t";
+    for( int i = 0; i < N; i++ ){
+        for( int j = 0; j < N; j++ )
+            std::cout << A[i]->at(j) << "  ";
+        std::cout << std::endl << "\t";
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Observation Probabilities" << std::endl << "\t";
+    for( int i = 0; i < N; i++ ){
+        for( int j = 0; j < M; j++ )
+            std::cout << B[i]->at(j) << "  ";
+        std::cout << std::endl << "\t";
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
 }

@@ -25,6 +25,8 @@ class Model {
         std::vector<double> * get_initial(void);
         std::vector<std::vector<double> *> *get_state(void);
         std::vector<std::vector<double> *> *get_observe(void);
+
+        void print(void);
     
     private:
         std::vector<double> pi;
